@@ -1,0 +1,39 @@
+select name, city
+from agents
+where name = 'Bond'
+
+select pid, name, quantity
+from products
+where priceUSD > '0.99'
+
+select ordno, qty
+from orders
+
+select name, city
+from customers
+where city = 'Duluth'
+
+select name
+from agents
+where city != 'New York'
+and city != 'London'
+
+select name
+from products
+where city != 'Dallas'
+AND city != 'Duluth'
+AND priceUSD <= '1.00'
+
+select *
+from orders
+where mon = 'jan'
+or mon = 'apr'
+
+select *
+from orders
+where mon = 'feb'
+and dollars > '200.00'
+
+select *
+from orders 
+where cid = 'C005'
