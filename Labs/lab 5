@@ -27,4 +27,25 @@ WHERE c.cid NOT IN (SELECT o.cid
 SELECT c.name, o.qty
 FROM Customers c FULL OUTER JOIN Orders o
   ON c.cid = o.cid
-WHERE o.qty = NULL
+WHERE o.qty IS null
+ORDER BY c.name ASC
+
+--5--
+SELECT DISTINCT c.name, a.name
+FROM Customers c JOIN Orders o
+	ON c.cid = o.cid JOIN Agents A
+	ON a.aid = o.aid
+ORDER BY c.name ASC
+
+--6--
+SELECT DISTINCT c.name, a.name, c.city
+FROM Customers c JOIN Agents a
+	ON c.city = a.city
+
+--7--
+SELECT c.name, c.city
+FROM Customers c JOIN Orders o 
+	ON c.cid = o.cid JOIN Products p
+	ON p.pid = o.pid IN (SELECT p.city
+			     FROM Products p
+			    )
