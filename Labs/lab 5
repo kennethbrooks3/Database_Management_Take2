@@ -1,0 +1,30 @@
+﻿--1--
+SELECT a.name, a.city, c.name
+FROM Agents a INNER JOIN Orders o
+  ON a.aid = o.aid JOIN Customers c
+  ON c.cid = o.cid
+WHERE c.name = 'Tiptop'
+ORDER BY a.name ASC
+
+--2--
+SELECT DISTINCT p.pid, a.name, c.name, c.city
+FROM Products p JOIN Orders o
+  ON p.pid = o.pid JOIN Agents a
+  ON a.aid = o.aid JOIN Customers c
+  ON c.cid = o.cid
+WHERE c.city = 'Kyoto'
+AND o.qty >= '1'
+ORDER BY p.pid ASC
+
+--3--
+SELECT c.name
+FROM Customers c
+WHERE c.cid NOT IN (SELECT o.cid
+	            FROM Orders o
+	            WHERE o.qty >= '0')
+
+--4--
+SELECT c.name, o.qty
+FROM Customers c FULL OUTER JOIN Orders o
+  ON c.cid = o.cid
+WHERE o.qty = NULL
