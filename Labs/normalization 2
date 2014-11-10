@@ -1,0 +1,137 @@
+﻿DROP DATABASE IF EXISTS Bond;
+CREATE DATABASE Bond;
+
+DROP TABLE IF EXISTS People;
+DROP TABLE IF EXISTS Actors;
+DROP TABLE IF EXISTS Directors;
+DROP TABLE IF EXISTS Movies;
+DROP TABLE IF EXISTS PeopleMovies;
+
+create table People (
+  pid char(4) not null,
+  name text,
+  address text,
+  role text,
+ primary key(pid)
+);
+
+create table Actors ( 
+  pid char(4) not null,
+  DOB text,
+  hairColor text,
+  eyeColor text,
+  heightinches int,
+  weightlbs int,
+  sagdate text, 
+ primary key(pid)
+);
+
+create table Directors (
+  pid char(4) not null,
+  filmschool text,
+  dgdate text,
+ primary key(pid)
+);
+
+create table Movies (
+  mid char(4) not null,
+  name text,
+  year int,
+  domesticsales int,
+  foreignsales int,
+  discsales int,
+ primary key(mid)
+);
+
+create table PeopleMovies (
+  pid char(4) not null,
+  mid char(4) not null,
+ primary key(pid, mid)
+);
+
+insert into people (pid, name, address, role)
+values ('p001', 'Robert Downey Jr.', '1423 Side St');
+
+insert into people (pid, name, address, role)
+values ('p002', 'Scarlett Johanssen', '54 Avengers ave');
+
+insert into actors (pid, dob, hairColor, eyeColor, heightinches, weightlbs, sagdate)
+values ('p001', '1965-04-04', 'brown', 'blue', '71', '160', '12-15');
+
+insert into movies (mid, name, year, domesticsales, foreignsales, discsales)
+values ('m001', 'The Avengers', '2012', 54625463, 584336355, 54564564);
+
+insert into movies (mid, name, year, domesticsales, foreignsales, discsales)
+values ('m002', 'Die Another Day', '2002', 53455463, 64567533, 25234523);
+
+insert into people (pid, name, address, role)
+values ('p003', 'Chris Evans', '36 America way', 'Actor');
+
+insert into people (pid, name, address, role)
+values ('p004', 'Chris Hemsworth', '140 Odin Ct', 'Actor');
+
+insert into people (pid, name, address, role)
+values ('p005', 'Mark Ruffalo', '647 Green dr', 'Actor');
+
+insert into people (pid, name, address, role)
+values ('p006', 'Tom Hiddleston', '234 Dark dr', 'Actor');
+
+insert into people (pid, name, address, role)
+values ('p008', 'Pierce Brosnan', '13 Bond St', 'Actor');
+
+insert into actors (pid, dob, hairColor, eyeColor, heightinches, weightlbs, sagdate)
+values ('p008', '1953-07-16', 'brown', 'blue', '71', '155', '11-09');
+
+insert into actors (pid, dob, hairColor, eyeColor, heightinches, weightlbs, sagdate)
+values ('p002', '1984-11-22', 'Blonde', 'Hazel', '65', '135', '04-07');
+
+insert into actors (pid, dob, hairColor, eyeColor, heightinches, weightlbs, sagdate)
+values ('p003', '1981-06-13', 'brown', 'blue', '73', '180', '11-11');
+
+insert into actors (pid, dob, hairColor, eyeColor, heightinches, weightlbs, sagdate)
+values ('p004', '1983-08-11', 'light brown', 'blue', '71', '160', '12-15');
+
+insert into actors (pid, dob, hairColor, eyeColor, heightinches, weightlbs, sagdate)
+values ('p005', '1967-11-22', 'black', 'brown', '66', '145', '03-11');
+
+insert into actors (pid, dob, hairColor, eyeColor, heightinches, weightlbs, sagdate)
+values ('p006', '1981-02-09', 'brown', 'blue', '64', '130', '06-05');
+
+insert into people (pid, name, address, role)
+values ('p007', 'Joss Whedon', '345 hollywood ave', 'Director');
+
+insert into directors (pid, filmschool, dgdate)
+values ('p007', 'the great film school', '10-23');
+
+insert into people (pid, name, address, role)
+values ('p009', 'Lee Tamahori', '243 hollywood blvd', 'Director');
+
+insert into directors (pid, filmschool, dgdate)
+values ('p009', 'the greater film school', '11-12');
+
+insert into PeopleMovies (pid, mid)
+values ('p001', 'm001');
+
+insert into PeopleMovies (pid, mid)
+values ('p002', 'm001');
+
+insert into PeopleMovies (pid, mid)
+values ('p003', 'm001');
+
+insert into PeopleMovies (pid, mid)
+values ('p004', 'm001');
+
+insert into PeopleMovies (pid, mid)
+values ('p005', 'm001');
+
+insert into PeopleMovies (pid, mid)
+values ('p006', 'm001');
+
+insert into PeopleMovies (pid, mid)
+values ('p007', 'm001');
+
+insert into PeopleMovies (pid, mid)
+values ('p008', 'm002');
+
+insert into PeopleMovies (pid, mid)
+values ('p009', 'm002');
