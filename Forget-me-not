@@ -1,0 +1,19 @@
+#! /bin/bash
+
+gpio mode 7 down
+
+app="Forget-Me-Not"
+message="FORGET ME NOT!!"
+title="PANIC BUTTON"
+priority=2
+device="sch-i545"
+userkey= "uAzL2tEynWiHLc3LXKvzQeaC2fEH8i"
+apikey=*myAPIkeyhere*
+
+while true
+        do
+
+        gpio wfi 7 rising
+curl https://api.pushover.net/1/messages.json -F token=$apikey -F user=$userkey -F message="Kitchen" -F title=$title -F sound=alien -F priority=1
+        sleep(60)
+        done
