@@ -1,0 +1,311 @@
+﻿--Kenneth M.. Brooks III
+--Database Management Fall 2014
+--Super Secret Agent Alan 'The Cake is a Lie' Laboseur
+--Encryted dispatch enclosed for SSA. Laboseur
+--For reasons of National Security, 
+--Please incinerate immediately after grading
+
+--Medieval Arms & Armor Database
+
+--DROP DATABASE MedievalArmsArmor;
+--CREATE DATABASE MedievalArmsArmor;
+
+
+DROP TABLE IF EXISTS canUse;
+DROP TABLE IF EXISTS canInflict;
+DROP TABLE IF EXISTS canWear;
+DROP TABLE IF EXISTS canBlock;
+DROP TABLE IF EXISTS Class;
+DROP TABLE IF EXISTS Unit;
+DROP TABLE IF EXISTS Weapons;
+DROP TABLE IF EXISTS Armor;
+DROP TABLE IF EXISTS dmgType;
+
+CREATE TABLE Unit (
+  uid		int NOT NULL PRIMARY KEY,
+  range		text NOT NULL,
+  armor		text NOT NULL,
+  mount		text NOT NULL
+);
+
+SELECT * 
+FROM class;
+
+CREATE TABLE Class(
+  cid		int NOT NULL PRIMARY KEY,
+  uid		int REFERENCES Unit(uid),
+  name		text
+);
+
+CREATE TABLE Weapons (
+  wid		text NOT NULL PRIMARY KEY,
+  wtype		text NOT NULL,
+  range		text NOT NULL,
+  weight	text NOT NULL,
+  hands		int NOT NULL
+);
+
+CREATE TABLE Armor (
+  material	text NOT NULL PRIMARY KEY,
+  weight	text NOT NULL
+);
+
+CREATE TABLE canUse (
+  cid		int NOT NULL,
+  wid		text NOT NULL,
+  PRIMARY KEY(cid, wid),
+  FOREIGN KEY (cid) references class(cid),
+  FOREIGN KEY (wid) references Weapons(wid)
+);
+
+CREATE TABLE dmgType (
+  damageType	text NOT NULL UNIQUE PRIMARY KEY
+);
+
+CREATE TABLE canInflict (
+  wtype		text,
+  damageType	text,
+  PRIMARY KEY(wtype, damageType)
+);
+
+CREATE TABLE canWear (
+  cid		int NOT NULL references Class(cid),
+  material	text NOT NULL references Armor(material),
+  PRIMARY KEY(cid, material)
+);
+
+CREATE TABLE canBlock (
+  material	text NOT NULL references Armor(material),
+  damageType	text NOT NULL references dmgType(damageType),
+  PRIMARY KEY(material, damageType)
+);
+
+
+
+
+
+
+INSERT INTO Unit (uid, range, armor, mount)
+	VALUES (1, 'melee', 'plate', 'yes'),
+	       (2, 'melee', 'plate', 'no'),
+	       (3, 'melee', 'mail', 'yes'),
+	       (4, 'melee', 'mail', 'no'),
+	       (5, 'melee', 'leather', 'yes'),
+	       (6, 'ranged', 'mail', 'yes'),
+	       (7, 'ranged', 'mail', 'no'),
+	       (8, 'ranged', 'leather', 'yes'),
+	       (9, 'ranged', 'leather', 'no');
+
+INSERT INTO Class (cid, uid, name)
+	VALUES (1, 1, 'heavy cavalry'),
+		(2, 1, 'knight'),
+		(3, 1, 'heavy lancer'),
+		(4, 2, 'heavy pikeman'),
+		(5, 2, 'pavisier'),
+		(6, 3, 'cavalry'),
+		(7, 3, 'lancer'),
+		(8, 4, 'pikeman'),
+		(9, 4, 'axeman'),
+		(10, 5, 'brute'),
+		(11, 6, 'heavy archer'),
+		(12, 7, 'heavy crossbowman'),
+		(13, 8, 'archer'),
+		(14, 9, 'crossbowman'),
+		(15, 9, 'slingman');
+
+INSERT INTO Weapons (wid, wtype, range, weight, hands)
+	VALUES ('shortsword', 'sword', 'melee', 'light', 1),
+		('bastard sword', 'sword', 'melee', 'heavy', 2),
+		('broadsword', 'sword', 'melee', 'heavy', 2),
+		('battleaxe', 'axe', 'melee', 'light', 1),
+		('great axe', 'axe', 'melee', 'heavy', 2),
+		('maul', 'mace', 'melee', 'heavy', 2),
+		('mace', 'mace', 'melee', 'light', 1),
+		('flail', 'mace', 'melee', 'light', 1),
+		('pike', 'polearm', 'melee', 'heavy', 2),
+		('halberd', 'polearm', 'melee', 'heavy', 2),
+		('lance', 'polearm', 'melee', 'light', 1),
+		('heavy lance', 'polearm', 'melee', 'heavy', 2),
+		('shortbow', 'bow', 'ranged', 'light', 2),
+		('longbow', 'bow', 'ranged', 'heavy', 2),
+		('crossbow', 'bow', 'ranged', 'light', 2),
+		('heavy crossbow', 'bow', 'ranged', 'heavy', 2),
+		('sling', 'sling', 'ranged', 'light', 1);
+
+INSERT INTO Armor (material, weight)
+	VALUES ('plate', 'heavy'),
+		('mail', 'medium'),
+		('leather', 'light');		
+
+INSERT INTO canUse (cid, wid)
+	VALUES (1, 'broadsword'),
+		(2, 'shortsword'),
+		(2, 'bastard sword'),
+		(2, 'broadsword'),
+		(2, 'battleaxe'),
+		(2, 'maul'),
+		(2, 'mace'),
+		(2, 'flail'),
+		(2, 'pike'),
+		(2, 'halberd'),
+		(3, 'heavy lance'),
+		(4, 'pike'),
+		(4, 'halberd'),
+		(5, 'shortsword'),
+		(5, 'flail'),
+		(5, 'mace'),
+		(6, 'shortsword'),
+		(6, 'battleaxe'),
+		(6, 'mace'),
+		(6, 'flail'),
+		(7, 'lance'),
+		(8, 'pike'),
+		(8, 'halberd'),
+		(9, 'battleaxe'),
+		(9, 'great axe'),
+		(10, 'great axe'),
+		(10, 'maul'),
+		(10, 'halberd'),
+		(10, 'pike'),
+		(11, 'longbow'),
+		(12, 'heavy crossbow'),
+		(13, 'shortbow'),
+		(14, 'crossbow'),
+		(15, 'sling');
+
+INSERT INTO canWear (cid, material)
+	VALUES (1, 'plate'),
+		(2, 'plate'),
+		(3, 'plate'),
+		(4, 'plate'),
+		(5, 'mail'),
+		(6, 'mail'),
+		(7, 'mail'),
+		(8, 'mail'),
+		(9, 'mail'),
+		(10, 'leather'),
+		(11, 'mail'),
+		(12, 'mail'),
+		(13, 'leather'),
+		(14, 'leather'),
+		(15, 'leather');
+
+INSERT INTO dmgType (damageType)
+	VALUES ('slash'),
+		('stab'),
+		('hack'),
+		('crush'),
+		('pierce');
+		
+
+INSERT INTO canInflict (wtype, damageType)
+	VALUES ('sword', 'slash'),
+		('sword', 'stab'),
+		('axe', 'hack'),
+		('mace', 'crush'),
+		('polearm', 'slash'),
+		('polearm', 'hack'),
+		('bow', 'pierce'),
+		('crossbow', 'pierce'),
+		('sling', 'crush');
+
+INSERT INTO canBlock (material, damageType)
+	VALUES ('plate', 'slash'),
+		('plate', 'stab'),
+		('plate', 'pierce'),
+		('mail', 'slash'),
+		('leather', 'slash');
+
+--VIEWS
+--
+--classWeaponsArmor view
+--displays the weapon and armor of each unit
+CREATE VIEW classWeaponsArmor
+AS
+SELECT DISTINCT c.name AS "Class Name", a.material AS "Armor Type", w.wid AS "Weapon Name", w.wtype AS "Weapon Type"
+FROM Class c, canUse cu, Weapons w, canWear cw, Armor a
+WHERE c.cid = cu.cid AND c.cid = cw.cid
+AND cu.wid = w.wid AND cw.material = a.material
+ORDER BY c.name, w.wid, w.wtype, a.material ASC;
+
+--classWeaponIneffective view
+--Shows which class/weapon cominations are ineffective against which armor types
+CREATE VIEW classWeaponIneffective
+AS
+SELECT DISTINCT c.name AS "Class Name", w.wid AS "Weapon", a.material AS "Ineffective against"
+FROM Weapons w, canInflict ci, dmgType dt, canBlock cb, armor a, canUse cu, Class c
+WHERE c.cid = cu.cid AND cu.wid = w.wid
+AND w.wtype = ci.wtype AND ci.damageType = dt.damageType
+AND dt.damageType = cb.damageType AND cb.material = a.material
+ORDER BY c.name, w.wid, a.material ASC;
+
+--Reports and Queries
+--
+--Classes that can mount and use leather or mail armor
+--Display all classes that can mount, wear leather or mail, along with the weapons that they can use
+SELECT DISTINCT c.name AS "Unit Class", u.mount AS "Can Unit Mount?", a.material AS "Can Wear"
+FROM Unit u, Class c, canWear cw, Armor a, canUse cu, Weapons w
+WHERE u.mount = 'yes' AND c.cid = cu.cid
+AND cu.wid = w.wid AND c.cid = cw.cid
+AND cw.material = a.material
+ORDER BY c.name;
+
+--Armor of Ranged units that can mount
+--Display all ranged classes that can mount and the armor they can use
+SELECT DISTINCT c.name, u.mount, u.armor
+FROM Unit u, Class c, canWear cw, Armor a
+WHERE u.mount = 'yes' AND u.range = 'ranged'
+ORDER BY c.name, u.armor;
+
+--Weapons usable by plate wearers
+--Display all classes that wear plate and the weapons they can use
+SELECT DISTINCT c.name, w.wid
+FROM Class c, canWear cw, armor a, canUse cu, Weapons w
+WHERE a.material = cw.material AND cw.cid = c.cid
+AND c.cid = cu.cid AND cu.wid = w.wid
+ORDER BY c.name, w.wid;
+
+--Classes that are unable to damage plate
+--Display Classes that are unable to damage plate 
+--wearers, along with their weapons
+--SELECT DISTINCT c.name, a.material AS "Armor Worn", w.wid AS "Weapons used"
+--FROM Class c, canWear cw, Armor a, canBlock cb, dmgType dt, canInflict ci, Weapons w, canUse cu
+--WHERE a.material = 'plate' AND cb.material = a.material
+--AND dt.damagetype = ci.damagetype AND cu.wid = w.wid
+--AND c.cid = cu.cid AND cu.wid = w.wid
+
+--SECURITY
+--CREATE ROLE admin
+--GRANT SELECT, INSERT, UPDATE, ALTER
+--ON ALL TABLES IN SCHEMA PUBLIC
+--TO admin
+
+--CREATE ROLE user
+--
+	
+--SELECT *
+--FROM canUse;
+
+--SELECT *
+--FROM canInflict;
+
+--SELECT *
+--FROM canwear;
+
+--SELECT *
+--FROM canblock;
+
+--SELECT *
+--FROM classes;
+
+--SELECT *
+--FROM subclasses;
+
+--SELECT *
+--FROM weapons;
+
+--SELECT *
+--FROM armor;
+
+--SELECT *
+--FROM dmgtype;
