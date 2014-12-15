@@ -29,7 +29,7 @@ CREATE TABLE Unit (
 );
 
 SELECT * 
-FROM class;
+FROM canblock;
 
 CREATE TABLE Class(
   cid		int NOT NULL PRIMARY KEY,
